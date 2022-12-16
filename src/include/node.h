@@ -1,5 +1,5 @@
-#ifndef _NODE_H_
-#define _NODE_H_
+#ifndef NODE_H
+#define NODE_H
 
 #include "util.h"
 
@@ -20,21 +20,19 @@ public:
 
     virtual ~Node() {}
     virtual void parse() = 0;
-    virtual std::string display() const;
+    virtual std::string format() const;
 
     uint32_t get_id() { return m_ID; }
 
     static pNode create_node(std::string_view& start, uint32_t parentID = 0, uint32_t paddM = uint32_t(-1));
 
-    static uint32_t m_lastID;
-
 protected:
     void parse_name();
-    void skip_until(char symbol);
+
+    static uint32_t m_lastID;
 
     uint32_t m_parentID, m_ID, m_paddM;
     std::string m_name;
-
     std::string_view& m_start;
 };
 
@@ -45,7 +43,7 @@ public:
         Node(_parentID, _ID, _start, _paddM) {}
 
     void parse() override;
-    std::string display() const override;
+    std::string format() const override;
 
 private:
     void parse_value();
@@ -60,7 +58,7 @@ public:
         Node(_parentID, _ID, _start, _paddM) {}
 
     void parse() override;
-    std::string display() const override;
+    std::string format() const override;
 
 private:
     void parse_list();
