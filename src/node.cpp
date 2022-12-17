@@ -97,7 +97,7 @@ std::string Node::format() const
 
 std::string ValueNode::format() const
 {
-    return Node::format() + " " + m_value + ")\r\n";
+    return Node::format() + " " + m_value + ")\n";
 }
 
 std::string ListNode::format() const
@@ -109,7 +109,7 @@ std::string ListNode::format() const
         res += " " + std::to_string(child->get_id());
         childFormat += child->format();
     }
-    res += ")\r\n" + childFormat;
+    res += ")\n" + childFormat;
 
     return res;
 }
