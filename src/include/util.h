@@ -2,12 +2,10 @@
 #define UTIL_H
 
 #include <iostream>
-#include <vector>
-#include <memory>
-#include <string_view>
 
 const std::string WHITESPACE_CHARS = " \t\r\n";
 
+// move view starting position 'n' chars forward
 static inline void shift_view(std::string_view& s, const size_t n)
 {
     s = s.substr(n);
@@ -33,6 +31,7 @@ static size_t find_first_not_of(const std::string_view& s, const std::string ski
     return pos;
 }
 
+// find first occurrence of 'possible' characters, then check that it is one of those from 'expected'
 static size_t check_first_of(const std::string_view& s,  const std::string possible,
                              const std::string expected, const size_t start = 0)
 {
@@ -44,6 +43,7 @@ static size_t check_first_of(const std::string_view& s,  const std::string possi
     throw std::runtime_error("Unexpected symbol");
 }
 
+// find first absence of 'skip' characters, then check that it is one of those from 'find'
 static size_t check_first_not_of(const std::string_view& s, const std::string skip,
                                  const std::string find, const size_t start = 0)
 {

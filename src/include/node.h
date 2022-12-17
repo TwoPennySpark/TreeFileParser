@@ -1,22 +1,17 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <memory>
+#include <vector>
 #include "util.h"
-
-/*
- * N ::= I = ( V | L )
- * L ::= {[\n] N [N...] [\n]}
- * I ::= [0-9][a-zA-Z][_]
- * V ::= "..." -[\"\n]
- */
 
 class Node; using pNode = std::shared_ptr<Node>;
 
 class Node
 {
 public:
-    Node(uint32_t _parentID, uint32_t _ID, std::string_view& _start, uint32_t _paddM):
-        m_parentID(_parentID), m_ID(_ID), m_paddM(_paddM), m_start(_start) {}
+    Node(uint32_t _parentID, uint32_t _ID, std::string_view& _view, uint32_t _paddM):
+        m_parentID(_parentID), m_ID(_ID), m_paddM(_paddM), m_view(_view) {}
 
     virtual ~Node() {}
     virtual void parse() = 0;
@@ -24,7 +19,7 @@ public:
 
     uint32_t get_id() { return m_ID; }
 
-    static pNode create_node(std::string_view& start, uint32_t parentID = 0, uint32_t paddM = uint32_t(-1));
+    static pNode create_node(std::string_view& view, uint32_t parentID = 0, uint32_t paddM = uint32_t(-1));
 
 protected:
     void parse_name();
@@ -33,14 +28,14 @@ protected:
 
     uint32_t m_parentID, m_ID, m_paddM;
     std::string m_name;
-    std::string_view& m_start;
+    std::string_view& m_view;
 };
 
 class ValueNode: public Node
 {
 public:
-    ValueNode(uint32_t _parentID, uint32_t _ID, std::string_view& _start, uint32_t _paddM):
-        Node(_parentID, _ID, _start, _paddM) {}
+    ValueNode(uint32_t _parentID, uint32_t _ID, std::string_view& _view, uint32_t _paddM):
+        Node(_parentID, _ID, _view, _paddM) {}
 
     void parse() override;
     std::string format() const override;
@@ -54,8 +49,8 @@ private:
 class ListNode: public Node
 {
 public:
-    ListNode(uint32_t _parentID, uint32_t _ID, std::string_view& _start, uint32_t _paddM):
-        Node(_parentID, _ID, _start, _paddM) {}
+    ListNode(uint32_t _parentID, uint32_t _ID, std::string_view& _view, uint32_t _paddM):
+        Node(_parentID, _ID, _view, _paddM) {}
 
     void parse() override;
     std::string format() const override;
