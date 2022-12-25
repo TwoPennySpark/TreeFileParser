@@ -1,9 +1,9 @@
-#include "node.h"
+#include "parser.h"
 #include <fstream>
 
 int main(int argc, char **argv)
 {
-    setlocale(LC_ALL,"Russian");
+    setlocale(LC_ALL, "Russian");
 
     if (argc < 3)
     {
@@ -29,17 +29,17 @@ int main(int argc, char **argv)
 
     std::string sIn((std::istreambuf_iterator<char>(fIn)),
                      std::istreambuf_iterator<char>());
-    std::string_view svIn(sIn);
 
-    pNode root;
+    Node root;
+    Parser parser(sIn);
     try {
-        root = Node::create_node(svIn);
-        root->parse();
+        root = parser.parse();
     } catch (...) {
         std::cout << "Неверный формат данных\n";
         return 1;
     }
-    fOut << root->format();
+
+    fOut << root.format();
 
     return 0;
 }
